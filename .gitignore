@@ -1,9 +1,9 @@
 /backend/node_modules
-/front-end/node_modules
+/frontend/node_modules
 
 # production
 /backend/build
-/front-end/build
+/frontend/build
 
 /.pnp
 .pnp.js
