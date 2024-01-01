@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import checkAuth from '../auth/CheckAuth';
+import { setAuthUser } from '../auth/AuthData';
 
 const SignUp = () =>{
 const [name, setName]= useState("");
@@ -21,7 +22,7 @@ const handelSubmit = async () =>{
         }
     });
     result= await result.json();
-    localStorage.setItem('user', JSON.stringify(result?.data));
+    setAuthUser('user', JSON.stringify(result?.data));
     navigate('/');
 }
  return(

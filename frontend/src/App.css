@@ -21,9 +21,25 @@
   width: 100%;
 }
 
-.register{
+.register, .center{
   position: absolute;
   left: 35%;
+}
+
+.login{
+  position: absolute;
+  left: 35%;
+}
+
+.logo {
+  width: 60px;
+  border-radius: 50%;
+  float: left;
+  margin: 10px;
+}
+
+.nav-right{
+  text-align: right;
 }
 
 input.inputBox {
@@ -40,6 +56,22 @@ button.submitButton {
   width: 20%;
   margin: 10px;
   background: skyblue;
+}
+
+.invalid{
+    color: red;
+    margin-left: 10px;
+    display: block;
+    margin-top: -8px;
+}
+
+.table{
+  border: 1px solid;
+}
+
+.table td{
+  width: 20%;
+  border: 1px solid;
 }
 
 .App-logo {
