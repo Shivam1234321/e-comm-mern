@@ -1,38 +1,56 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getAuthToken, getAuthUser } from "../auth/AuthData";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export const Product= ()=>{
+export const EditProduct= ()=>{
     const [name, setName]= useState("");
     const [price, setPrice]= useState("");
     const [category, setCategory]= useState("");
     const [company, setCompany]= useState("");
     const [error, setError]= useState();
-    const navigate= useNavigate();
+    const params= useParams();
+
+    useEffect(()=>{
+        getSingleProduct();
+    },[]);
+
+    const getSingleProduct= async () =>{
+        let result= await fetch(`http://localhost:3030/product/${params.id}`,{
+            headers:{
+                "Authorization": `bearer ${getAuthToken()}`
+            }
+        });
+        result= await result.json();
+        if(result._id){
+            setName(result.name);
+            setCategory(result.category);
+            setCompany(result.company);
+            setPrice(result.price);
+        }
+    }
 
     const handleSubmit= async () =>{
-
         if(!name || !price || !category || !company){
             setError(true);
             return false;
         }
 
         let userId= getAuthUser()._id;
-        let result= await fetch(`${process.env.REACT_APP_API_URL}add-product'`, {
-            method: 'post',
+        let result= await fetch(`${process.env.REACT_APP_API_URL}product/${params.id}`, {
+            method: 'put',
             body: JSON.stringify({name, price, category, company, userId}),
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `bearer ${getAuthToken()}`
             }
         });
-        result= await result.json();
-        navigate('/');
+        await result.json();
+        getSingleProduct();
     }
 
     return(
         <div className="center">
-            <h1>Product</h1>
+            <h1>Edit Product</h1>
             <input type="text" placeholder="Enter Product Name" className="inputBox" value={name} onChange={(e) => setName(e.target.value)}/>
             {error && !name && <span className="invalid">Please enter valid name</span>}
             <input type="text" placeholder="Enter Product Price" className="inputBox" value={price} onChange={(e) => setPrice(e.target.value)}/>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setAuthUser } from "../auth/AuthData";
+import { setAuthToken, setAuthUser } from "../auth/AuthData";
 import checkAuth from "../auth/CheckAuth";
 
 export const Login = () =>{
@@ -15,7 +15,7 @@ export const Login = () =>{
     },[]);
 
     const handelLogin= async ()=>{
-        let result= await fetch("http://localhost:3030/login", {
+        let result= await fetch(`${process.env.REACT_APP_API_URL}login`, {
             method: 'post',
             body: JSON.stringify({email, password}),
             headers: {
@@ -23,8 +23,9 @@ export const Login = () =>{
             }
         });
         result= await result.json();
-        if(result.name){
-            setAuthUser(JSON.stringify(result));
+        if(result.auth){
+            setAuthUser(JSON.stringify(result.user));
+            setAuthToken(result.auth);
             navigate('/');
         }else{
             alert(result.result)

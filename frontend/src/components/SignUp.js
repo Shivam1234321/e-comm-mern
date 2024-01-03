@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import checkAuth from '../auth/CheckAuth';
-import { setAuthUser } from '../auth/AuthData';
+import { setAuthToken, setAuthUser } from '../auth/AuthData';
 
 const SignUp = () =>{
 const [name, setName]= useState("");
@@ -14,7 +14,7 @@ useEffect(() =>{
     }
 },[]);
 const handelSubmit = async () =>{
-    let result= await fetch('http://localhost:3030/register',{
+    let result= await fetch(`${process.env.REACT_APP_API_URL}register`,{
         method: 'post',
         body: JSON.stringify({name, email, password}),
         headers: {
@@ -22,7 +22,8 @@ const handelSubmit = async () =>{
         }
     });
     result= await result.json();
-    setAuthUser('user', JSON.stringify(result?.data));
+    setAuthUser(JSON.stringify(result?.data));
+    setAuthToken(result.auth);
     navigate('/');
 }
  return(
