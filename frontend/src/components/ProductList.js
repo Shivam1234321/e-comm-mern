@@ -21,16 +21,20 @@ export const ProductList= ()=>{
                         <td>Name</td>
                         <td>Category</td>
                         <td>Company</td>
+                        <td>Action</td>
                     </tr>
                 </thead>
                 {
                     products?.map((item, index) =>
-                        <tbody>
+                        <tbody key={item._id}>
                             <tr>
                                 <td>{index+1}</td>
                                 <td>{item?.name}</td>
                                 <td>{item?.price}</td>
                                 <td>{item?.category}</td>
+                                <td>
+                                    <button>Delete</button>
+                                </td>
                             </tr>
                         </tbody>
                     )

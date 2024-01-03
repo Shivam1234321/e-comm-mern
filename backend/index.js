@@ -45,3 +45,21 @@ app.get('/products', async (req, res) =>{
         res.send({result: "Product not found."});
     }
 })
+
+app.delete('/product/:id', async (req, res) =>{
+    try{
+        let result= await Product.deleteOne({_id: req.params.id});
+        res.send(result);
+    }catch(err){
+        res.send({result: "Product not found."});
+    }
+});
+
+app.get('/product/:id', async (req, res) =>{
+    try{
+        let product= await Product.findOne({_id: req.params.id});
+        res.send(product);
+    }catch(err){
+        res.send({result: "Product not found."});
+    }
+});
